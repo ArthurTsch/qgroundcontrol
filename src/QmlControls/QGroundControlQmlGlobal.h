@@ -121,6 +121,8 @@ public:
     Q_PROPERTY(QString qgcVersion       READ qgcVersion         CONSTANT)
     Q_PROPERTY(bool    skipSetupPage    READ skipSetupPage      WRITE setSkipSetupPage NOTIFY skipSetupPageChanged)
 
+    Q_PROPERTY(bool    firstTimeStart   READ firstTimeStart     WRITE setFirstTimeStart NOTIFY firstTimeStartChanged)
+
     Q_INVOKABLE void    saveGlobalSetting       (const QString& key, const QString& value);
     Q_INVOKABLE QString loadGlobalSetting       (const QString& key, const QString& defaultValue);
     Q_INVOKABLE void    saveBoolGlobalSetting   (const QString& key, bool value);
@@ -236,6 +238,8 @@ public:
     bool    apmFirmwareSupported    ();
     bool    skipSetupPage           () { return _skipSetupPage; }
     void    setSkipSetupPage        (bool skip);
+    bool    firstTimeStart();
+    void    setFirstTimeStart(bool firstTime);
 
     void    setIsVersionCheckEnabled    (bool enable);
     void    setMavlinkSystemID          (int  id);
@@ -264,6 +268,7 @@ signals:
     void flightMapPositionChanged       (QGeoCoordinate flightMapPosition);
     void flightMapZoomChanged           (double flightMapZoom);
     void skipSetupPageChanged           ();
+    void firstTimeStartChanged          ();
 
 private:
     double                  _flightMapInitialZoom   = 17.0;

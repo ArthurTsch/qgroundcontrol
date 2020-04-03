@@ -56,6 +56,8 @@ public:
     Q_PROPERTY(QString              brandImageIndoor        READ brandImageIndoor                               CONSTANT)
     Q_PROPERTY(QString              brandImageOutdoor       READ brandImageOutdoor                              CONSTANT)
     Q_PROPERTY(QmlObjectListModel*  customMapItems          READ customMapItems                                 CONSTANT)
+    Q_PROPERTY(QStringList          startupPages            READ startupPages                                   NOTIFY startupPagesChanged)
+
 
     Q_INVOKABLE bool guidedActionsControllerLogging() const;
 
@@ -157,6 +159,8 @@ public:
     /// @return Complex items to be made available to user
     virtual QStringList complexMissionItemNames(Vehicle* /*vehicle*/, const QStringList& complexMissionItemNames) { return complexMissionItemNames; }
 
+    virtual QStringList startupPages();
+
     bool showTouchAreas() const { return _showTouchAreas; }
     bool showAdvancedUI() const { return _showAdvancedUI; }
     void setShowTouchAreas(bool show);
@@ -171,6 +175,7 @@ signals:
     void instrumentPagesChanged ();
     void showTouchAreasChanged  (bool showTouchAreas);
     void showAdvancedUIChanged  (bool showAdvancedUI);
+    void startupPagesChanged    ();
 
 protected slots:
     void _activeVehicleChanged  (Vehicle* activeVehicle);

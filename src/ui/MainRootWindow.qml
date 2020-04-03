@@ -37,6 +37,20 @@ ApplicationWindow {
             width   = ScreenTools.isMobile ? Screen.width  : Math.min(250 * Screen.pixelDensity, Screen.width)
             height  = ScreenTools.isMobile ? Screen.height : Math.min(150 * Screen.pixelDensity, Screen.height)
         }
+
+        // Startup experience wizard and provide the source using QGCCorePlugin
+        if(QGroundControl.firstTimeStart) {
+            startupPopup.open()
+        }
+    }
+
+    // TODO: dev remove it
+    Shortcut {
+        sequence: "Ctrl+s"
+        onActivated: {
+            QGroundControl.firstTimeStart = true
+            startupPopup.open()
+        }
     }
 
     property var                _rgPreventViewSwitch:       [ false ]
@@ -677,4 +691,28 @@ ApplicationWindow {
         }
     }
 
+    //-- Startup PopUp wizard
+    Popup {
+        id:             startupPopup
+        x:              Math.max(Math.round((mainWindow.width  - width)  * 0.5), ScreenTools.defaultFontPixelWidth * 5)
+        y:              Math.max(Math.round((mainWindow.height - height) * 0.5), ScreenTools.defaultFontPixelHeight * 2)
+
+        modal:          true
+        focus:          true
+        closePolicy:    (startupLoader.item && startupLoader.item.forceKeepingOpen !== undefined && startupLoader.item.forceKeepingOpen) ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        Connections {
+            target: startupLoader.item
+            onCloseView: startupPopup.close()
+        }
+
+        background: Rectangle {
+            radius: ScreenTools.defaultFontPixelHeight * 0.5
+            color: qgcPal.window
+        }
+        Loader {
+            id: startupLoader
+            source: "/qml/QGroundControl/Specific/StartupWizard.qml"
+        }
+    }
 }

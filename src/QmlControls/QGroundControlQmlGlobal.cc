@@ -24,6 +24,9 @@ const char* QGroundControlQmlGlobal::_flightMapPositionLatitudeSettingsKey =    
 const char* QGroundControlQmlGlobal::_flightMapPositionLongitudeSettingsKey =   "Longitude";
 const char* QGroundControlQmlGlobal::_flightMapZoomSettingsKey =                "FlightMapZoom";
 
+static const QString _genericSettingsGroup("Generic");
+static const QString _firstTimeStartupSettingsKey("FirstTimeStartup");
+
 QGeoCoordinate   QGroundControlQmlGlobal::_coord = QGeoCoordinate(0.0,0.0);
 double           QGroundControlQmlGlobal::_zoom = 2;
 
@@ -215,6 +218,23 @@ bool QGroundControlQmlGlobal::px4ProFirmwareSupported()
 bool QGroundControlQmlGlobal::apmFirmwareSupported()
 {
     return _firmwarePluginManager->supportedFirmwareTypes().contains(MAV_AUTOPILOT_ARDUPILOTMEGA);
+}
+
+bool
+QGroundControlQmlGlobal::firstTimeStart()
+{
+    QSettings settings;
+    settings.beginGroup(_genericSettingsGroup);
+    return settings.value(_firstTimeStartupSettingsKey, true).toBool();
+}
+
+void
+QGroundControlQmlGlobal::setFirstTimeStart(bool firstTime)
+{
+    QSettings settings;
+    settings.beginGroup(_genericSettingsGroup);
+    settings.setValue(_firstTimeStartupSettingsKey, QVariant(firstTime));
+    emit firstTimeStartChanged();
 }
 
 bool QGroundControlQmlGlobal::linesIntersect(QPointF line1A, QPointF line1B, QPointF line2A, QPointF line2B)
