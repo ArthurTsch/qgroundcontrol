@@ -15,8 +15,8 @@
 
 #include <QSettings>
 
-#define SHORT_TIMEOUT 2500
-#define LONG_TIMEOUT  5000
+#define SHORT_TIMEOUT 25000
+#define LONG_TIMEOUT  50000
 
 static const char *kMICROHARD_GROUP     = "Microhard";
 static const char *kLOCAL_IP            = "LocalIP";
